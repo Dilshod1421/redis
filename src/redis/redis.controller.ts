@@ -1,15 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { RedisService } from './redis.service';
-import { CreateRediDto } from './dto/create-redi.dto';
-import { UpdateRediDto } from './dto/update-redi.dto';
+import { SetRedisto } from './dto/set-redis.dto';
 
 @Controller('redis')
 export class RedisController {
@@ -20,28 +11,13 @@ export class RedisController {
     return this.redisService.ping();
   }
 
-  @Post()
-  create(@Body() createRediDto: CreateRediDto) {
-    return this.redisService.create(createRediDto);
+  @Post('set')
+  set(@Body() setRedisDto: SetRedisto) {
+    return this.redisService.set(setRedisDto);
   }
 
-  @Get()
-  findAll() {
-    return this.redisService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.redisService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRediDto: UpdateRediDto) {
-    return this.redisService.update(+id, updateRediDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.redisService.remove(+id);
+  @Get('get/:key')
+  get(@Param('key') key: string) {
+    return this.redisService.get(key);
   }
 }
